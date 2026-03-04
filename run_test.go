@@ -79,3 +79,58 @@ func TestRunKeepsUnreachableVertexAsInfinity(t *testing.T) {
 		t.Fatalf("expected C predecessor nil, got %v", c.Predecessor)
 	}
 }
+
+func TestRunComputesShortestPathsAndPredecessors(t *testing.T) {
+	a := &Vertice{Label: "A"}
+	b := &Vertice{Label: "B"}
+	c := &Vertice{Label: "C"}
+	d := &Vertice{Label: "D"}
+	e := &Vertice{Label: "E"} // unreachable from A
+
+	a.Edges = []Edge{
+		{Weight: 4, To: b},
+		{Weight: 1, To: c},
+	}
+	b.Edges = []Edge{
+		{Weight: 1, To: d},
+	}
+	c.Edges = []Edge{
+		{Weight: 2, To: b},
+		{Weight: 5, To: d},
+	}
+
+	graph := &Graph{
+		Vertices: []*Vertice{a, b, c, d, e},
+	}
+
+	Run(graph, a)
+
+	if a.Distance != 0 {
+		t.Fatalf("distance for A = %v, want 0", a.Distance)
+	}
+	if c.Distance != 1 {
+		t.Fatalf("distance for C = %v, want 1", c.Distance)
+	}
+	if b.Distance != 3 {
+		t.Fatalf("distance for B = %v, want 3", b.Distance)
+	}
+	if d.Distance != 4 {
+		t.Fatalf("distance for D = %v, want 4", d.Distance)
+	}
+	if !math.IsInf(e.Distance, 1) {
+		t.Fatalf("distance for E = %v, want +Inf", e.Distance)
+	}
+
+	if c.Predecessor != a {
+		t.Fatalf("predecessor for C = %v, want A", c.Predecessor)
+	}
+	if b.Predecessor != c {
+		t.Fatalf("predecessor for B = %v, want C", b.Predecessor)
+	}
+	if d.Predecessor != b {
+		t.Fatalf("predecessor for D = %v, want B", d.Predecessor)
+	}
+	if e.Predecessor != nil {
+		t.Fatalf("predecessor for E = %v, want nil", e.Predecessor)
+	}
+}
