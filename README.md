@@ -1,8 +1,8 @@
-# Algoritmos em Go
+# Algorithms in Go
 
-Implementações de algoritmos em Go, começando por Dijkstra para encontrar os menores caminhos em um grafo. Sem dependências externas.
+Algorithm implementations in Go, starting with Dijkstra for finding shortest paths in a graph. No external dependencies.
 
-Requer **Go 1.27.2** ou superior.
+Requires **Go 1.27.2** or later.
 
 ```sh
 go run ./cmd/dijkstra
@@ -10,16 +10,16 @@ go test ./...
 go vet ./...
 ```
 
-O exemplo imprime as distâncias a partir de A: `A: 0`, `B: 4` e `C: 6`.
+The example prints distances from A: `A: 0`, `B: 4`, and `C: 6`.
 
 ## Dijkstra
 
-Importe `github.com/gabrielroriz/dijsktra-go/dijkstra`, monte um `Graph` com seus vértices (`Vertice`) e arestas (`Edge`) e chame `dijkstra.Run(graph, origem)`. Consulte `Distance` e `Predecessor` em cada vértice para obter o resultado.
+Import `github.com/gabrielroriz/dijsktra-go/dijkstra`, build a `Graph` with vertices (`Vertice`) and edges (`Edge`), and call `dijkstra.Run(graph, origin)`. Read `Distance` and `Predecessor` on each vertex to get the results.
 
-O grafo é direcionado; para uma conexão nos dois sentidos, adicione uma aresta em cada direção. Os pesos devem ser finitos e não negativos, e a origem e os destinos das arestas devem pertencer ao grafo. Vértices inalcançáveis ficam com distância `+Inf` e predecessor `nil`. Cada execução substitui os resultados anteriores. Complexidade: O(V² + E) em tempo e O(V) em memória adicional.
+The graph is directed; for a connection in both directions, add an edge in each direction. Weights must be finite and nonnegative, and the origin and all edge destinations must belong to the graph. Unreachable vertices have a distance of `+Inf` and a `nil` predecessor. Each run replaces the previous results. Complexity: O(V² + E) time and O(V) extra space.
 
-## Adicionar um algoritmo
+## Adding an algorithm
 
-Crie um pacote em um diretório próprio na raiz, como `bfs/`, com a implementação e testes `*_test.go`. Exemplos executáveis ficam em `cmd/<algoritmo>/`. Use o mesmo módulo Go e adicione aqui uma breve descrição e o comando do exemplo.
+Create a package in its own directory at the repository root, such as `bfs/`, with the implementation and `*_test.go` tests. Executable examples belong in `cmd/<algorithm>/`. Use the same Go module and add a brief description and the example command here.
 
-Antes de commitar, execute `gofmt -w .`, `go test ./...` e `go vet ./...`.
+Before committing, run `gofmt -w .`, `go test ./...`, and `go vet ./...`.
